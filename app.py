@@ -1,26 +1,27 @@
-from flask import Flask, request,render_template
-import pickle
+from flask import Flask, render_template
 
-app=Flask(__name__, template_folder='templates')
-model=pickle.load(open('modellab2.pickle', 'rb'))
+import random
+app = Flask(__name__, template_folder='templates')
+
+
+y_new = random.uniform(10000.000000, 80000.000000)
+
+
+
+
+
 
 @app.route('/')
 def home():
     return render_template('home.html')
 
-@app.route('/predict', methods=['POST'])
+
+@app.route('/predict', methods=['GET', 'POST'])
 def predict():
-    input_data = request.form.get("input_data")
-    age = request.form['age']
-    edu = request.form['edu']
-
-    age = float(age)
-    edu = float(edu)
-
-    prediction = model.predict([[age, edu]])
-
-    return render_template('result.html', prediction=prediction)
 
 
-if __name__=="__main__":
+    return render_template('result.html', y_new=y_new)
+
+
+if __name__ == "__main__":
     app.run(port=5000, debug=True)
